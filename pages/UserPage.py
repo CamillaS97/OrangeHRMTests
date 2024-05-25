@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,6 +16,7 @@ class UserPage(PageObject):
 
     def open_side_menu_option(self, option='Dashboard'):
         self.driver.find_element(By.LINK_TEXT, option).click()
+        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element(self.header, option))
 
     def is_dashboard_page(self):
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(self.header))
