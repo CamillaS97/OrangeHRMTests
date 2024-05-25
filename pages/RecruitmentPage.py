@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class RecruitmentPage(PageObject):
-    add_btn = (By.XPATH, '//*[@class="oxd-button oxd-button--medium oxd-button--secondary"]')
+    add_btn = (By.XPATH, '//button[text()=" Add "]')
     candidate_form_header = (By.XPATH, '//*[@class="orangehrm-card-container"]/h6')
     first_name_field = (By.NAME, 'firstName')
     last_name_field = (By.NAME, 'lastName')
@@ -70,6 +70,11 @@ class RecruitmentPage(PageObject):
         qty = qty.replace('(', '')
         qty = qty.replace(') Records Found', '')
         return int(qty)
+
+    def add_candidate(self, firstname=default_firstname, lastname=default_lastname, email=default_email):
+        self.open_add_candidate()
+        self.fill_recruitment_form(firstname=firstname, lastname=lastname, email=email)
+        self.submit_form()
 
     def delete_candidate(self):
         before = self.get_candidate_qty()

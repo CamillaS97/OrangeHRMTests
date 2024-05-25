@@ -14,6 +14,7 @@ def pytest_addoption(parser):
 def setup(request):
     selected_browser = request.config.getoption('--browser_selenium')
     login_page = LoginPage(browser=selected_browser)
+    login_page.driver.set_window_size(1920, 1080)
     login_page.open_login_page()
     yield login_page
     login_page.close()
