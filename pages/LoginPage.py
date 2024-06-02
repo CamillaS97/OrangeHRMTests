@@ -13,6 +13,9 @@ class LoginPage(PageObject):
     def __init__(self, browser):
         super(LoginPage, self).__init__(browser=browser)
 
+    def __init__(self, driver=None, browser=None):
+        super(LoginPage, self).__init__(driver, browser)
+
     def open_login_page(self):
         self.driver.get(self.url)
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(self.username_field))
