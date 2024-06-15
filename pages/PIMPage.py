@@ -21,6 +21,8 @@ class PIMPage(PageObject):
     save_btn = (By.CSS_SELECTOR, "button[type='submit']")
     personal_detail_title = (By.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div/div/div[2]/div[1]/h6')
     employee_name_field = (By.CLASS_NAME, 'orangehrm-edit-employee-name')
+    employee_name_field_main_screen = (By.CSS_SELECTOR, "[placeholder='Type for hints...']")
+    search_button = (By.XPATH, "//button[@type='submit']")
     default_firstname = 'Bruce'
     default_lastname = 'Wayne'
     default_username = 'batman'
@@ -64,3 +66,16 @@ class PIMPage(PageObject):
         self.create_login_details()
         self.fill_employee_form(firstname=firstname, lastname=lastname, username=username, password=password)
         self.submit_form()
+
+    def search_employee(self, name):
+        self.driver.find_element(*self.employee_name_field_main_screen).send_keys(name)
+        self.driver.find_element(*self.search_button).click()
+
+    def is_searched_employee_found(self, username):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, f"//div[@class='oxd-table-body']//div[3]/div[contains(text(),'{username}')]"))
+            )
+            return True
+        except:
+            return False
